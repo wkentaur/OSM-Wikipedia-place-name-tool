@@ -1,0 +1,31 @@
+
+
+# table kentaur_osm_wp_links
+
+CREATE TYPE optable AS ENUM ('planet_point', 'planet_line', 'planet_polygon');
+CREATE TABLE kentaur_osm_wp_links (
+    osm_table optable,
+    osm_id integer,
+    osm_wikipedia text,
+    status smallint,
+    wiki_lang varchar(10),
+    wiki_art_title varchar(255),
+    wiki_page_id integer,
+    PRIMARY KEY(osm_table, osm_id)
+);
+
+# ???? CREATE INDEX osm_wp_links_index ON osm_wp_links (osm_id);
+
+# table kentaur_wp_lang
+
+
+CREATE TABLE kentaur_wp_lang (
+    ll_from_lang varchar(10),
+    ll_from integer,
+    ll_lang varchar(10),
+    ll_title varchar(255),
+    status smallint,
+    PRIMARY KEY(ll_from_lang, ll_from, ll_lang)
+);
+
+
