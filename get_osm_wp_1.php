@@ -42,11 +42,6 @@ $del_res = pg_query($del_sql);
 if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 //FIXME: clear also lang table?
 
-//FIXME remove drop rule
-$del_rule =  'DROP RULE "osm_wp_on_duplicate_ignore" ON "'. OSM_WP_TABLE .'"';
-$res = pg_query($del_rule);
-if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
-
 //insert ignore
 $ins_rule = 'CREATE RULE "osm_wp_on_duplicate_ignore" AS ON INSERT TO "'. OSM_WP_TABLE .'"
     WHERE EXISTS(SELECT 1 FROM '. OSM_WP_TABLE .' 
