@@ -35,17 +35,14 @@ $pg_conn = pg_connect('host='. OSM_HOST .' dbname='. OSM_DB);
 if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
 // clear WP_LANG_TABLE
-//$del_sql = "DELETE FROM ". WP_LANG_TABLE;
-//$del_res = pg_query($del_sql);
-//if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
-
-
-$del_rule = 'DROP RULE "wp_lang_on_duplicate_ignore" ON "'. WP_LANG_TABLE .'"';
-$res = pg_query($del_rule);
+$del_sql = "DELETE FROM ". WP_LANG_TABLE . "
+   WHERE status <> ". $st_lang['TO_UPDATE'];
+$del_res = pg_query($del_sql);
 if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
 
-//FIXME change to replace
+
+//FIXME change to replace?
 //insert ignore
 $ins_rule = 'CREATE RULE "wp_lang_on_duplicate_ignore" AS ON INSERT TO "'. WP_LANG_TABLE .'"
     WHERE EXISTS(SELECT 1 FROM '. WP_LANG_TABLE .' 
