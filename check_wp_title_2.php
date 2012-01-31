@@ -69,7 +69,7 @@ if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
 
 //get multiple refs to same wiki article
-$sql = "SELECT osm_wikipedia, count(*)
+$sql = "SELECT osm_wikipedia
         FROM ". OSM_WP_TABLE ."
         WHERE status <> ". $status_arr['DOUBLE_REF'] ."
         GROUP BY osm_wikipedia 
