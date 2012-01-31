@@ -60,7 +60,7 @@ foreach ($osm_tables as $o_table) {
     $sql = "SELECT osm_id, tags->'wikipedia' AS wikipedia
         FROM $o_table
     WHERE
-        (tags ? 'wikipedia') 
+        (tags ? 'wikipedia')
     ";
 
   
@@ -98,7 +98,7 @@ foreach ($osm_tables as $o_table) {
         if ( preg_match('@^http://@i', $osm_wikipedia) ) {
             if ( preg_match('@^http://([\w\-]+?)\.wikipedia\.org/wiki/(.+)@i',
                 $osm_wikipedia, $matches) ) {
-                 $wiki = $matches[1];
+                 $wiki = strtolower( $matches[1] );
                  $page_title = urldecode($matches[2]);
                  //FIXME fix urldecoding 
                  //title not utf-8?
@@ -111,7 +111,7 @@ foreach ($osm_tables as $o_table) {
             }
         } elseif ( preg_match('/^([\w\-]+?):(.+)/',
                     $osm_wikipedia, $matches) ) {      // lang:page title
-                 $wiki = $matches[1];
+                 $wiki = strtolower( $matches[1] );
                  $page_title = $matches[2];
         } else {                                         // should be just page title, in en.wikipedia
             $wiki = 'en';

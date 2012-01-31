@@ -57,21 +57,26 @@ while($row = pg_fetch_assoc($res))
     $ll_from_lang = $row['ll_from_lang'];
     $ll_from = $row['ll_from'];
 
-    $osm_sql = "SELECT  name, $name_fields
+    $osm_sql = "SELECT  name, tags->'route_name' AS route_name, $name_fields
         FROM $osm_table 
-        WHERE (osm_id = '$osm_id')";
-    //FIXME: osm_id not really unique?
+        WHERE (osm_id = '$osm_id')
+        LIMIT 1";
+    //osm_id not really unique
     $osm_res = pg_query($osm_sql);
     if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
     while($osm_row = pg_fetch_assoc($osm_res))
     {
-        //$name = $osm_row['name'];
+        if ($osm_row['name']) {
+            $osm_name = $osm_row['name'];
+        } else {
+            $osm_name = $osm_row['route_name'];
+        }
         //foreach ($target_langs as $check_lang) {
         //}
         $name_in_wp = strip_wp_title($title, $lang);
         if ($osm_row["$lang"]) { //name:xxx already set in OSM
             $lang_status = $st_lang['IS_IN_OSM'];
-        } elseif (strcmp($name_in_wp, $osm_row['name']) == 0) {
+        } elseif (strcmp($name_in_wp, $osm_name) == 0) {
             $lang_status = $st_lang['SAME_AS_OSM_NAME'];
         } else {
             $lang_status = $st_lang['TO_CHECK'];
