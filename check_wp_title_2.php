@@ -18,13 +18,39 @@ register_shutdown_function('shutdown');
 
 //functions
 
+    //get redirected page title and namespace    
+    function get_redir_page_ns_title($in_page_id) {
+        $ret_page_ns = '';
+        $ret_page_title = '';
+        
+        if ($in_page_id) {
+            $art_sql = sprintf("SELECT rd_namespace, rd_title FROM redirect
+                WHERE rd_from = '%s'",
+                $in_page_id);
+
+            $result = mysql_query($art_sql);
+            if (!$result) {
+                die('Invalid query: ' . mysql_error());
+            }
+
+            if (mysql_num_rows($result)) {
+                while ($art_row = mysql_fetch_assoc($result)) {
+                    $ret_page_ns = $art_row['rd_namespace'];
+                    $ret_page_title = $art_row['rd_title'];
+                }
+            }
+        }
+        
+        return array($ret_page_ns, $ret_page_title);
+    
+    } //func
+
 //get Wikipedia article page_id
-function get_wp_page_id($page_title) {
+function get_wp_page_id($page_title, $follow_redirect = false) {
 
     $out_status = '';
     $out_wiki_page_id = '';
    
-    //FIXME add redirect-pages support
     $art_sql = sprintf("SELECT page_id, page_is_redirect FROM page
               WHERE page_namespace = '%s' AND page_title = '%s'",
               WP_ARTICLE_NS,
@@ -38,7 +64,16 @@ function get_wp_page_id($page_title) {
     if (mysql_num_rows($result)) {
         while ($art_row = mysql_fetch_assoc($result)) {
             if ( $art_row['page_is_redirect'] ) {
-                $out_status = 'REDIRECT';
+                if ($follow_redirect) {
+                    list($redir_ns, $redir_title) = get_redir_page_ns_title($art_row['page_id']);
+                    if ($redir_ns == WP_ARTICLE_NS) {
+                        list($out_status, $out_wiki_page_id) = get_wp_page_id($redir_title);
+                    } else {
+                        $out_status = 'REDIRECT';
+                    }
+                } else {
+                    $out_status = 'REDIRECT';
+                }
             } else {
                 $out_status = 'OK';
                 $out_wiki_page_id = $art_row['page_id'];
@@ -129,7 +164,8 @@ while($row = pg_fetch_assoc($res))
     }
     
     if ($db_selected) {
-        $ret_arr = get_wp_page_id($page_title);
+        $follow_redir = true;
+        $ret_arr = get_wp_page_id($page_title, $follow_redir);
         $ret_status = $ret_arr[0];
         $out_wiki_page_id = $ret_arr[1];
 

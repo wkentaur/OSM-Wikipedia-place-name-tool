@@ -35,10 +35,10 @@ $pg_conn = pg_connect('host='. OSM_HOST .' dbname='. OSM_DB);
 if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
 // clear WP_LANG_TABLE
-$del_sql = "DELETE FROM ". WP_LANG_TABLE . "
-   WHERE status <> ". $st_lang['TO_UPDATE'];
-$del_res = pg_query($del_sql);
-if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
+//$del_sql = "DELETE FROM ". WP_LANG_TABLE . "
+//   WHERE status <> ". $st_lang['TO_UPDATE'];
+//$del_res = pg_query($del_sql);
+//if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
 
 

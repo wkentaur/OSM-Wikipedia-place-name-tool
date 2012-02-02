@@ -32,7 +32,7 @@ $st_lang = array(
     'IS_IN_OSM' => 0, 
     'SAME_AS_OSM_NAME' => 1, 
     'TO_CHECK' => 2,
-    'TO_UPDATE' => 3,
+    //'TO_UPDATE' => 3,
     'UPDATED' => 4,
     'ALREADY_SET' => 5
 );
@@ -88,7 +88,7 @@ function strip_wp_name ($def) {
 function strip_wp_title ($title, $lang) {
     $name = '';
     $title = str_replace('_', ' ', $title);
-    //disamb part ()
+    //disambiguation part in titles ()
     $title = preg_replace('/\s\(.+\)/', '', $title);
     //in en.wp after comma
     if (strcmp($lang, 'en') == 0) {
