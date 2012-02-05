@@ -27,10 +27,10 @@ $pg = pg_connect('host='. OSM_HOST .' dbname='. OSM_DB);
 // check for connection error
 if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
-//get person articles using ru wiki, articles with , in title
+//get person articles using ru wiki
 $person_sql = "SELECT ll_from_lang, ll_from 
    FROM ". WP_LANG_TABLE . "
-   WHERE ll_lang='ru' AND ll_title LIKE '%,%'";
+   WHERE ll_lang='ru' AND ll_title LIKE '%,%' AND ll_title LIKE '%(%'";
 $person_res = pg_query($person_sql);
 if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
