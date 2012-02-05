@@ -27,12 +27,31 @@ $pg = pg_connect('host='. OSM_HOST .' dbname='. OSM_DB);
 // check for connection error
 if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
+//get person articles using ru wiki, articles with , in title
+$person_sql = "SELECT ll_from_lang, ll_from 
+   FROM ". WP_LANG_TABLE . "
+   WHERE ll_lang='ru' AND ll_title LIKE '%,%'";
+$person_res = pg_query($person_sql);
+if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
+
+$update_sql = "UPDATE ". WP_LANG_TABLE . " SET status = '". $st_lang['PERSONNAME'] ."'
+    WHERE ll_from_lang = $1 AND ll_from = $2";
+$update_res = pg_prepare($pg, "set_personname", $update_sql);
+$log->lwrite('Total '. pg_num_rows($person_res) . ' personanames in ru.');
+
+while($row = pg_fetch_assoc($person_res))
+{
+    $update_res = pg_execute( $pg, "set_personname", array($row['ll_from_lang'], $row['ll_from']) );
+    if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
+} //while
+
+
 // 
 $sql = "SELECT osm_table, osm_id, ll_lang, ll_title, ll_from_lang, ll_from 
    FROM ". OSM_WP_TABLE .", ". WP_LANG_TABLE ." 
-   WHERE (". OSM_WP_TABLE .".wiki_lang = ". WP_LANG_TABLE .".ll_from_lang AND 
-         ". OSM_WP_TABLE .".wiki_page_id = ". WP_LANG_TABLE .".ll_from)
-         ";
+   WHERE (". OSM_WP_TABLE .".wiki_lang = ". WP_LANG_TABLE .".ll_from_lang 
+         AND ". OSM_WP_TABLE .".wiki_page_id = ". WP_LANG_TABLE .".ll_from)
+         AND ". WP_LANG_TABLE .".status <> ". $st_lang['PERSONNAME'];
 
 $res = pg_query($sql);
 if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
@@ -47,6 +66,11 @@ foreach ($target_langs as $check_lang) {
         $name_fields = "tags->'name:" . $check_lang . "' AS ". $check_lang;
     }
 }
+
+$update_sql = "UPDATE ". WP_LANG_TABLE . " SET status = $1
+    WHERE ll_from_lang = $2 AND ll_from = $3 AND ll_lang = $4";
+$update_res = pg_prepare($pg, "update_lang_table", $update_sql);
+
 
 while($row = pg_fetch_assoc($res))
 {
@@ -81,12 +105,10 @@ while($row = pg_fetch_assoc($res))
         } else {
             $lang_status = $st_lang['TO_CHECK'];
         }
-        $update_sql = "UPDATE ". WP_LANG_TABLE . " SET status = '$lang_status'
-            WHERE ll_from_lang = '$ll_from_lang' AND ll_from = '$ll_from' AND ll_lang = '$lang'";
-        $update_res = pg_query($update_sql);
+        $update_res = pg_execute( $pg, "update_lang_table", array($lang_status, $ll_from_lang, $ll_from, $lang) );
         if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
-    }
+    } //while($osm_row
     
 } //while
 

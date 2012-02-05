@@ -34,7 +34,8 @@ $st_lang = array(
     'TO_CHECK' => 2,
     //'TO_UPDATE' => 3,
     'UPDATED' => 4,
-    'ALREADY_SET' => 5
+    'ALREADY_SET' => 5,
+    'PERSONNAME' => 6
 );
 
 $osm_tables = array('planet_point', 'planet_line', 'planet_polygon');

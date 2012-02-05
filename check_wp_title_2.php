@@ -18,32 +18,32 @@ register_shutdown_function('shutdown');
 
 //functions
 
-    //get redirected page title and namespace    
-    function get_redir_page_ns_title($in_page_id) {
-        $ret_page_ns = '';
-        $ret_page_title = '';
+//get redirected page title and namespace    
+function get_redir_page_ns_title($in_page_id) {
+    $ret_page_ns = '';
+    $ret_page_title = '';
         
-        if ($in_page_id) {
-            $art_sql = sprintf("SELECT rd_namespace, rd_title FROM redirect
-                WHERE rd_from = '%s'",
-                $in_page_id);
+    if ($in_page_id) {
+        $art_sql = sprintf("SELECT rd_namespace, rd_title FROM redirect
+            WHERE rd_from = '%s'",
+            $in_page_id);
 
-            $result = mysql_query($art_sql);
-            if (!$result) {
-                die('Invalid query: ' . mysql_error());
-            }
+        $result = mysql_query($art_sql);
+        if (!$result) {
+            die('Invalid query: ' . mysql_error());
+        }
 
-            if (mysql_num_rows($result)) {
-                while ($art_row = mysql_fetch_assoc($result)) {
-                    $ret_page_ns = $art_row['rd_namespace'];
-                    $ret_page_title = $art_row['rd_title'];
-                }
+        if (mysql_num_rows($result)) {
+            while ($art_row = mysql_fetch_assoc($result)) {
+                $ret_page_ns = $art_row['rd_namespace'];
+                $ret_page_title = $art_row['rd_title'];
             }
         }
+    }
         
-        return array($ret_page_ns, $ret_page_title);
+    return array($ret_page_ns, $ret_page_title);
     
-    } //func
+} //func
 
 //get Wikipedia article page_id
 function get_wp_page_id($page_title, $follow_redirect = false) {
