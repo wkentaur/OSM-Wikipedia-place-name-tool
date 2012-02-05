@@ -41,7 +41,7 @@ $st_lang = array(
 $osm_tables = array('planet_point', 'planet_line', 'planet_polygon');
 
 // target languages to be added to OSM, array of language codes
-$target_langs = array('et', 'en', 'de', 'ru');
+$target_langs = array('de', 'en', 'et', 'fr', 'nl', 'ru');
 
 //functions
 
