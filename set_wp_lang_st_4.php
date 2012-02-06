@@ -51,7 +51,7 @@ $sql = "SELECT osm_table, osm_id, ll_lang, ll_title, ll_from_lang, ll_from
    FROM ". OSM_WP_TABLE .", ". WP_LANG_TABLE ." 
    WHERE (". OSM_WP_TABLE .".wiki_lang = ". WP_LANG_TABLE .".ll_from_lang 
          AND ". OSM_WP_TABLE .".wiki_page_id = ". WP_LANG_TABLE .".ll_from)
-         AND ". WP_LANG_TABLE .".status <> ". $st_lang['PERSONNAME'];
+         AND (". WP_LANG_TABLE .".status IS NULL OR ". WP_LANG_TABLE .".status <> ". $st_lang['PERSONNAME'] .")";
 
 $res = pg_query($sql);
 if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
