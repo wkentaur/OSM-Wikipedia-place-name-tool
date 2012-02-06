@@ -142,6 +142,11 @@ foreach ($osm_tables as $o_table) {
                 }
             }
 
+            //links to Commons
+            if ( strcmp($wiki, 'commons') == 0 ) {
+                $status = $status_arr['COMMONS'];
+            }
+            
             if ( strlen($page_title) > MAX_TITLE_LENGTH )
                 $page_title = mb_substr($page_title, 0, MAX_TITLE_LENGTH, 'UTF-8');
             

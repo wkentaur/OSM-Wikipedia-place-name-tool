@@ -25,7 +25,8 @@ $status_arr = array(
     'NOT_FOUND' => 4,
     'IS_REDIRECT' => 5,
     'UNKNOWN_WIKI' => 6,
-    'URLDECODE_ERROR' => 7 
+    'URLDECODE_ERROR' => 7,
+    'COMMONS' => 8
 );
 
 $st_lang = array(
