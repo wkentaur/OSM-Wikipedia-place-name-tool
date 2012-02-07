@@ -48,7 +48,7 @@ if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 //if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
 //insert ignore
-$ins_rule = 'CREATE RULE "osm_wp_on_duplicate_ignore" AS ON INSERT TO "'. OSM_WP_TABLE .'"
+$ins_rule = 'CREATE OR REPLACE RULE "osm_wp_on_duplicate_ignore" AS ON INSERT TO "'. OSM_WP_TABLE .'"
     WHERE EXISTS(SELECT 1 FROM '. OSM_WP_TABLE .' 
         WHERE (osm_table, osm_id)=(NEW.osm_table, NEW.osm_id))
     DO INSTEAD NOTHING';

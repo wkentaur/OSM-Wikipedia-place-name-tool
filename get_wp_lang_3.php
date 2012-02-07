@@ -44,7 +44,7 @@ if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
 //FIXME change to replace?
 //insert ignore
-$ins_rule = 'CREATE RULE "wp_lang_on_duplicate_ignore" AS ON INSERT TO "'. WP_LANG_TABLE .'"
+$ins_rule = 'CREATE OR REPLACE RULE "wp_lang_on_duplicate_ignore" AS ON INSERT TO "'. WP_LANG_TABLE .'"
     WHERE EXISTS(SELECT 1 FROM '. WP_LANG_TABLE .' 
         WHERE (ll_from_lang, ll_from, ll_lang)=(NEW.ll_from_lang, NEW.ll_from, NEW.ll_lang))
     DO INSTEAD NOTHING';

@@ -29,3 +29,14 @@ CREATE TABLE kentaur_wp_lang (
 );
 
 
+# table kentaur_lang_blacklist
+
+CREATE TABLE kentaur_lang_blacklist (
+    bl_from_lang varchar(10),
+    bl_from integer,
+    bl_lang varchar(10),
+    bl_session_id varchar(32),
+    bl_modified timestamp default now(),
+    PRIMARY KEY(bl_from_lang, bl_from, bl_lang, bl_session_id)
+);
+
