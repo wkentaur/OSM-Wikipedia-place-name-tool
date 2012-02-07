@@ -30,6 +30,12 @@ register_shutdown_function('shutdown');
 
 
 // open psql connection
+
+function mb_ucasefirst($str) { 
+    $str[0] = mb_strtoupper($str[0]); 
+    return $str; 
+}
+
 $pg_conn = pg_connect('host='. OSM_HOST .' dbname='. OSM_DB);
 pg_set_client_encoding("UNICODE");
  
@@ -147,6 +153,8 @@ foreach ($osm_tables as $o_table) {
                 $status = $status_arr['COMMONS'];
             }
             
+            //titles are ucfirst in wikipedia db
+            $page_title = mb_ucasefirst( $page_title );
             if ( strlen($page_title) > MAX_TITLE_LENGTH )
                 $page_title = mb_substr($page_title, 0, MAX_TITLE_LENGTH, 'UTF-8');
             
