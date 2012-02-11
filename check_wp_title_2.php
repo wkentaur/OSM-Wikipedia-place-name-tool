@@ -104,6 +104,7 @@ if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
 
 //get multiple refs to same wiki article
+//FIXME: on updating not all double ref's are marked, if status <> $status_arr['DOUBLE_REF'] is used
 $sql = "SELECT osm_wikipedia
         FROM ". OSM_WP_TABLE ."
         WHERE status <> ". $status_arr['DOUBLE_REF'] ."

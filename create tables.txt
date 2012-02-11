@@ -1,7 +1,9 @@
 
-
+#
 # table kentaur_osm_wp_links
-
+#
+# look up values for status field from common.php
+ 
 CREATE TYPE optable AS ENUM ('planet_point', 'planet_line', 'planet_polygon');
 CREATE TABLE kentaur_osm_wp_links (
     osm_table optable,
@@ -14,10 +16,13 @@ CREATE TABLE kentaur_osm_wp_links (
     PRIMARY KEY(osm_table, osm_id)
 );
 
-# ???? CREATE INDEX osm_wp_links_index ON osm_wp_links (osm_id);
+GRANT SELECT ON kentaur_osm_wp_links TO PUBLIC;
 
+#
 # table kentaur_wp_lang
-
+#
+# contains interlanguage links copied from the wikipedias
+# look up values for status field from common.php
 
 CREATE TABLE kentaur_wp_lang (
     ll_from_lang varchar(10),
@@ -28,8 +33,13 @@ CREATE TABLE kentaur_wp_lang (
     PRIMARY KEY(ll_from_lang, ll_from, ll_lang)
 );
 
+GRANT SELECT ON kentaur_wp_lang TO PUBLIC;
 
+
+#
 # table kentaur_lang_blacklist
+#
+# contains names user unlists in placename tool
 
 CREATE TABLE kentaur_lang_blacklist (
     bl_from_lang varchar(10),
@@ -39,4 +49,6 @@ CREATE TABLE kentaur_lang_blacklist (
     bl_modified timestamp default now(),
     PRIMARY KEY(bl_from_lang, bl_from, bl_lang, bl_session_id)
 );
+
+GRANT SELECT ON kentaur_lang_blacklist TO PUBLIC;
 

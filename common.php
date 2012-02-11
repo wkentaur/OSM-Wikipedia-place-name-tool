@@ -16,7 +16,7 @@ define('DOWNLOAD_OSC_FILE', 'get_osc_file.php');
 //wikipedia article namespace
 define('WP_ARTICLE_NS', 0);
 
-
+# status in OSM_WP_TABLE
 $status_arr = array(
     'NOT_SET' => -1, 
     'OK' => 0, 
@@ -30,6 +30,7 @@ $status_arr = array(
     'COMMONS' => 8
 );
 
+# status in WP_LANG_TABLE
 $st_lang = array(
     'IS_IN_OSM' => 0, 
     'SAME_AS_OSM_NAME' => 1, 
