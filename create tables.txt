@@ -52,3 +52,16 @@ CREATE TABLE kentaur_lang_blacklist (
 
 GRANT SELECT ON kentaur_lang_blacklist TO PUBLIC;
 
+#
+# table kentaur_download_stats
+#
+# name:XX download statistics
+
+CREATE TABLE kentaur_download_stats (
+    st_lang varchar(10),
+    st_count integer default 0,
+    st_modified timestamp,
+    PRIMARY KEY(st_lang)
+);
+
+GRANT SELECT ON kentaur_download_stats TO PUBLIC;

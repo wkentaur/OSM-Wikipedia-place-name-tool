@@ -12,6 +12,7 @@ define('OSM_DB', 'osm_mapnik');
 define('OSM_WP_TABLE', 'kentaur_osm_wp_links');
 define('WP_LANG_TABLE', 'kentaur_wp_lang');
 define('BLACKLIST_TABLE', 'kentaur_lang_blacklist');
+define('DOWN_STATS_TABLE', 'kentaur_download_stats');
 define('DOWNLOAD_OSC_FILE', 'get_osc_file.php');
 //wikipedia article namespace
 define('WP_ARTICLE_NS', 0);
