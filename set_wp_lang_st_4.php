@@ -61,9 +61,9 @@ $log->lwrite('Selected '. pg_num_rows($res) . ' rows from WP_LANG_TABLE.');
 $name_fields = '';
 foreach ($target_langs as $check_lang) {
     if ($name_fields) {
-        $name_fields = $name_fields . ", tags->'name:" . $check_lang . "' AS ". $check_lang;
+        $name_fields = $name_fields . ", tags->'name:" . $check_lang . "' AS \"". $check_lang . '"';
     } else {
-        $name_fields = "tags->'name:" . $check_lang . "' AS ". $check_lang;
+        $name_fields = "tags->'name:" . $check_lang . "' AS \"". $check_lang . '"';
     }
 }
 
