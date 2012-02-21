@@ -71,6 +71,7 @@ $update_sql = "UPDATE ". WP_LANG_TABLE . " SET status = $1
     WHERE ll_from_lang = $2 AND ll_from = $3 AND ll_lang = $4";
 $update_res = pg_prepare($pg, "update_lang_table", $update_sql);
 
+$row_count = 0;
 
 while($row = pg_fetch_assoc($res))
 {
@@ -109,6 +110,11 @@ while($row = pg_fetch_assoc($res))
         if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
     } //while($osm_row
+    
+    $row_count++;
+    if ( ($row_count % 50000) == 0 ) {
+        $log->lwrite($row_count . ' rows processed...');
+    }
     
 } //while
 
