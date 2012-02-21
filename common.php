@@ -45,7 +45,7 @@ $st_lang = array(
 $osm_tables = array('planet_point', 'planet_line', 'planet_polygon');
 
 // target languages to be added to OSM, array of language codes
-$target_langs = array('ar', 'de', 'en', 'et', 'fr', 'ja', 'nl', 'ru', 'uk', 'zh');
+$target_langs = array('af', 'am', 'an', 'ar', 'ast', 'az', 'ba', 'bat-smg', 'be', 'be-x-old', 'bg', 'bn', 'bpy', 'br', 'bs', 'bug', 'ca', 'ceb', 'cs', 'cv', 'cy', 'da', 'de', 'diq', 'el', 'en', 'eo', 'es', 'et', 'eu', 'fa', 'fi', 'fr', 'fy', 'ga', 'gl', 'gsw', 'gu', 'he', 'hi', 'hr', 'ht', 'hu', 'hy', 'ia', 'id', 'io', 'is', 'it', 'ja', 'jv', 'ka', 'kk', 'kn', 'ko', 'ku', 'la', 'lb', 'lmo', 'lt', 'lv', 'map-bms', 'mg', 'mk', 'ml', 'mr', 'ms', 'my', 'nap', 'nds', 'ne', 'new', 'nl', 'nn', 'no', 'oc', 'pl', 'pms', 'pnb', 'pt', 'qu', 'ro', 'roa-rup', 'ru', 'ru-sip', 'scn', 'sh', 'sk', 'sl', 'sq', 'sr', 'su', 'sv', 'sw', 'ta', 'te', 'th', 'tl', 'tr', 'tt', 'uk', 'ur', 'vi', 'vo', 'wa', 'war', 'yo', 'zh', 'zh-yue');
 
 //functions
 
