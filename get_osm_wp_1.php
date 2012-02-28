@@ -32,8 +32,10 @@ register_shutdown_function('shutdown');
 // open psql connection
 
 function mb_ucasefirst($str) { 
-    $str[0] = mb_strtoupper($str[0]); 
-    return $str; 
+    if ($str and strlen($str)>0 ) {
+        $str[0] = mb_strtoupper($str[0]); 
+        return $str; 
+    }
 }
 
 $pg_conn = pg_connect('host='. OSM_HOST .' dbname='. OSM_DB);
