@@ -34,6 +34,8 @@ $pg_conn = pg_connect('host='. OSM_HOST .' dbname='. OSM_DB);
 // check for connection error
 if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
 
+//FIXME delete rows from WP_LANG_TABLE which don't have corresponding keys in OSM_WP_TABLE
+
 // clear WP_LANG_TABLE
 //$del_sql = "DELETE FROM ". WP_LANG_TABLE . "
 //   WHERE status <> ". $st_lang['TO_UPDATE'];

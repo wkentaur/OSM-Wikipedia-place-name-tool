@@ -139,6 +139,13 @@ foreach ($osm_tables as $o_table) {
                 $page_title = $osm_wikipedia;
             }
 
+            if ( !is_string( $page_title ) ) {
+                $msg = 'page_title is not string! ';
+                print $msg . "\n";
+                print $page_title;
+                trigger_error($msg, E_USER_ERROR);
+            }
+            
             //convert spaces to '_'; http://www.mediawiki.org/wiki/Manual:Page_table#page_title
             if ($status == $status_arr['NOT_SET']) {
                 $page_title = str_replace(' ', '_', $page_title);
