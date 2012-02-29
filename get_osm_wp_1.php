@@ -96,18 +96,31 @@ foreach ($osm_tables as $o_table) {
         // just page title: St Paul's Cathedral
         // lang:page title      
         
-        $data_exists = false;
-        $update_data = false;
-        $is_sql = "SELECT osm_wikipedia FROM ". OSM_WP_TABLE ." 
-           WHERE osm_table='". $o_table ."' AND osm_id=". intval( $osm_id );
-        $is_res = pg_query($is_sql);
-        if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
-        if ( $is_row = pg_fetch_assoc($is_res) ) {
-            $data_exists = true;
-            $update_data = strcmp($osm_wikipedia, $is_row['osm_wikipedia']) != 0;
+        //check multipolygons; does relation have the 'wikipedia' tag, or is it the outer way instead
+        // FIXME: and add outer way to table instead?
+        $process_data = true;
+        if ( strcmp($o_table, 'planet_polygon') == 0 and $osm_id < 0 ) {
+            $check_sql = "SELECT 1 FROM planet_rels WHERE id = ". abs($osm_id) ." AND CAST( tags AS text ) NOT LIKE '%wikipedia,%'";
+            $check_res = pg_query( $check_sql );
+            if($e = pg_last_error()) trigger_error($e, E_USER_ERROR); 
+            if( pg_num_rows( $check_res ) ) {
+                $process_data = false;
+            }
         }
         
-        if (!$data_exists OR $update_data) {
+        if ( $process_data ) {
+          $data_exists = false;
+          $update_data = false;
+          $is_sql = "SELECT osm_wikipedia FROM ". OSM_WP_TABLE ." 
+            WHERE osm_table='". $o_table ."' AND osm_id=". intval( $osm_id );
+          $is_res = pg_query($is_sql);
+          if($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
+          if ( $is_row = pg_fetch_assoc($is_res) ) {
+                $data_exists = true;
+                $update_data = strcmp($osm_wikipedia, $is_row['osm_wikipedia']) != 0;
+          }
+        
+          if (!$data_exists OR $update_data) {
             //also match https
             if ( preg_match('@^https?://@i', $osm_wikipedia) ) {
                 if ( preg_match('@^https?://([\w\-]+?)\.wikipedia\.org/wiki/(.+)@i',
@@ -178,7 +191,8 @@ foreach ($osm_tables as $o_table) {
                     if ($e = pg_last_error()) trigger_error($e, E_USER_ERROR);
                 }
             }
-        } //if new or update
+          } //if new or update
+        }  // if process_data
     } //while
 
 } //foreach
