@@ -1,0 +1,8 @@
+Backend part of OSM-Wikipedia place name tool.
+
+This tool adds semi-automatically new name:XX values to Openstreetmap using wikipedia links 
+from OSM and interlanguage links from the Wikipedias.
+
+URL: http://meta.wikimedia.org/wiki/User:WikedKentaur/OSM-Wikipedia_place_name_tool
+
+
